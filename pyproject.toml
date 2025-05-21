@@ -1,0 +1,183 @@
+[build-system]
+requires = ["hatchling>=1.27.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "scrapy-crawl-maps"
+version = "0.0.0"
+description = "Scrapy plugin that allows defining the logic of a spider using a directed graph defined in JSON format."
+dependencies = [
+    "itemadapter>=0.8.0",
+    "jmespath>=0.9.5",
+    "pydantic>=2.4.0",
+    "scrapy>=2.13.0",
+    "scrapy-poet>=0.26.0",
+    "scrapy-spider-metadata>=0.1.1",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Framework :: Scrapy",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+license = "BSD-3-Clause"
+license-files = ["LICENSE"]
+readme = "README.rst"
+requires-python = ">=3.9"
+authors = [{ name = "Scrapy developers", email = "info@scrapy.org" }]
+maintainers = [{ name = "Scrapy developers", email = "info@scrapy.org" }]
+
+[project.urls]
+Documentation = "https://scrapy-crawl-maps.readthedocs.io"
+Source = "https://github.com/scrapy-plugins/scrapy-crawl-maps"
+Tracker = "https://github.com/scrapy-plugins/scrapy-crawl-maps/issues"
+Changelog = "https://github.com/scrapy-plugins/scrapy-crawl-maps/commits/main"
+releasenotes = "https://scrapy-crawl-maps.readthedocs.io/en/latest/changes.html"
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "/docs",
+  "/scrapy_crawl_maps",
+  "/tests",
+  "/CHANGES.rst",
+  "/codecov.yml",
+  "/tox.ini",
+]
+
+[tool.bumpversion]
+current_version = "0.0.0"
+commit = true
+tag = true
+tag_name = "{new_version}"
+
+[[tool.bumpversion.files]]
+filename = "docs/conf.py"
+
+[tool.coverage.run]
+branch = true
+include = ["scrapy_crawl_maps/*"]
+omit = ["tests/*"]
+disable_warnings = ["include-ignored"]
+
+[tool.coverage.paths]
+source = [
+    "scrapy_crawl_maps",
+    ".tox/**/site-packages/scrapy_crawl_maps"
+]
+
+[tool.coverage.report]
+# https://github.com/nedbat/coveragepy/issues/831#issuecomment-517778185
+exclude_lines = ["pragma: no cover", "if TYPE_CHECKING:"]
+
+[tool.mypy]
+check_untyped_defs = true
+
+[tool.pytest.ini_options]
+xfail_strict = true
+addopts = [
+    "--reactor=asyncio",
+]
+
+[tool.ruff.lint]
+extend-select = [
+    # flake8-bugbear
+    "B",
+    # flake8-comprehensions
+    "C4",
+    # pydocstyle
+    "D",
+    # flake8-future-annotations
+    "FA",
+    # flynt
+    "FLY",
+    # refurb
+    "FURB",
+    # isort
+    "I",
+    # flake8-implicit-str-concat
+    "ISC",
+    # flake8-logging
+    "LOG",
+    # Perflint
+    "PERF",
+    # pygrep-hooks
+    "PGH",
+    # flake8-pie
+    "PIE",
+    # pylint
+    "PL",
+    # flake8-pytest-style
+    "PT",
+    # flake8-use-pathlib
+    "PTH",
+    # flake8-pyi
+    "PYI",
+    # flake8-quotes
+    "Q",
+    # flake8-return
+    "RET",
+    # flake8-raise
+    "RSE",
+    # Ruff-specific rules
+    "RUF",
+    # flake8-bandit
+    "S",
+    # flake8-simplify
+    "SIM",
+    # flake8-slots
+    "SLOT",
+    # flake8-debugger
+    "T10",
+    # flake8-type-checking
+    "TC",
+    # pyupgrade
+    "UP",
+    # pycodestyle warnings
+    "W",
+    # flake8-2020
+    "YTT",
+]
+ignore = [
+    # Ones we want to ignore
+
+    # Missing docstring in public module
+    "D100",
+    # Missing docstring in public package
+    "D104",
+    # Missing docstring in magic method
+    "D105",
+    # Missing docstring in __init__
+    "D107",
+    # One-line docstring should fit on one line with quotes
+    "D200",
+    # No blank lines allowed after function docstring
+    "D202",
+    # 1 blank line required between summary line and description
+    "D205",
+    # Multi-line docstring closing quotes should be on a separate line
+    "D209",
+    # First line should end with a period
+    "D400",
+    # Use of `assert` detected; needed for mypy
+    "S101",
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Skip docstring and security checks in tests
+"tests/**" = ["D", "S"]
+
+[tool.ruff.lint.flake8-pytest-style]
+parametrize-values-type = "tuple"
+
+[tool.ruff.lint.pydocstyle]
+convention = "pep257"
